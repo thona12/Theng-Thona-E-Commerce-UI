@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import {
-  BrowserRouter,
+  HashRouter,
   Routes,
   Route
 } from "react-router-dom";
@@ -40,17 +40,14 @@ function App() {
     });
   };
 
-  // Update quantity (minimum 1)
+  // Update quantity
   const updateQuantity = (id, amount) => {
     setCart((oldCart) =>
       oldCart.map((item) =>
         item.id === id
           ? {
               ...item,
-              quantity: Math.max(
-                1,
-                item.quantity + amount
-              )
+              quantity: Math.max(1, item.quantity + amount)
             }
           : item
       )
@@ -72,47 +69,35 @@ function App() {
 
   // Cart total
   const cartTotal = cart.reduce(
-    (total, item) =>
-      total + item.price * item.quantity,
+    (total, item) => total + item.price * item.quantity,
     0
   );
 
-  // Clear cart after successful order
+  // Clear cart
   const clearCart = () => {
     setCart([]);
   };
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Navbar cartCount={cartCount} />
 
       <Routes>
-
-        {/* Home Page */}
         <Route
           path="/"
-          element={
-            <Home addToCart={addToCart} />
-          }
+          element={<Home addToCart={addToCart} />}
         />
 
-        {/* Products Page */}
         <Route
           path="/products"
-          element={
-            <Products addToCart={addToCart} />
-          }
+          element={<Products addToCart={addToCart} />}
         />
 
-        {/* Product Details */}
         <Route
           path="/product/:id"
-          element={
-            <ProductDetails addToCart={addToCart} />
-          }
+          element={<ProductDetails addToCart={addToCart} />}
         />
 
-        {/* Shopping Cart */}
         <Route
           path="/cart"
           element={
@@ -125,7 +110,6 @@ function App() {
           }
         />
 
-        {/* Checkout Page */}
         <Route
           path="/checkout"
           element={
@@ -137,27 +121,24 @@ function App() {
           }
         />
 
-        {/* Order Success Page */}
         <Route
           path="/order-success"
           element={<OrderSuccess />}
         />
 
-        {/* Not Found Page */}
         <Route
           path="*"
           element={
             <div style={{ padding: "60px", textAlign: "center" }}>
               <h1>404 - Page Not Found</h1>
-              <a href="/">Go Home</a>
+              <a href="#/">Go Home</a>
             </div>
           }
         />
-
       </Routes>
 
       <Footer />
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
